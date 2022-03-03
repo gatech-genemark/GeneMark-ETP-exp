@@ -10,9 +10,10 @@ The commands below were used to prepare the main annotation files:
 
 The processing relies on [GenomeTools](http://genometools.org/) which can be installed with, e.g., `apt install genometools`.
 
+### Ensembl annotation
+
 ```bash
 bin=../../../bin
-
 mkdir ensembl; cd ensembl
 
 wget http://ftp.ensembl.org/pub/release-105/gff3/danio_rerio/Danio_rerio.GRCz11.105.chr.gff3.gz
@@ -29,8 +30,12 @@ $bin/enrich_gff.pl --in annot.gff3 --out tmp_annot.gff3 --cds --v --warnings
 mv tmp_annot.gff3  annot.gff3
 
 $bin/gff3_to_gtf.pl annot.gff3 annot.gtf
+```
 
-cd ..
+### NCBI annotation
+
+```bash
+bin=../../../bin
 mkdir refseq; cd refseq
 wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/002/035/GCF_000002035.6_GRCz11/GCF_000002035.6_GRCz11_genomic.gff.gz
 gunzip GCF_000002035.6_GRCz11_genomic.gff.gz
@@ -47,8 +52,11 @@ $bin/enrich_gff.pl --in annot.gff3 --out tmp_annot.gff3 --cds --v --warnings
 mv tmp_annot.gff3  annot.gff3
 
 $bin/gff3_to_gtf.pl annot.gff3 annot.gtf
+```
 
-cd ..
+### Reliable subset
+
+```bash
 bin=../../bin
 ln -s refseq/annot.gtf
 ln -s refseq/pseudo.gff3
