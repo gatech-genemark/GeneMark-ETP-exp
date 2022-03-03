@@ -19,4 +19,9 @@ in each species folder.
 
 All annotation statistics were collected with the `bin/analyze_annot.py` scipt.
 
+```bash
+ls */annot/annot.gtf | xargs -P7 -I {} bash -c 'bin/analyze_annot.py {} > {}.analysis'
+ls */annot/reliable.gtf | xargs -P7 -I {} bash -c 'bin/analyze_annot.py {} > {}.analysis'
+```
+
 TODO: Archive and upload annotations.
