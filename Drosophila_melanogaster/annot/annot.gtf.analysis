@@ -1,0 +1,19 @@
+.gtf
+-----------------------  -----
+Gene count               13951
+Transcript count         30719
+Unique coding tr. count  22395
+-----------------------  -----
+Per transcript            Average    Median
+----------------------  ---------  --------
+Introns per transcript       4.3          3
+Coding length             1986.91      1410
+Intron length             1292.85        82
+Exon length                375.17       198
+-------------------
+Per gene                  Average    Median
+----------------------  ---------  --------
+Introns per transcript       2.82         2
+Coding length             1535.1       1146
+Intron length              935.28        68
+Exon length                401.46       216
