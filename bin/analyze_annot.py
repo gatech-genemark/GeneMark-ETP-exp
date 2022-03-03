@@ -129,6 +129,13 @@ class Transcript():
             row[4] = str(int(self.exons[i + 1].row[3]) - 1)
             self.addIntron(row)
 
+    def getExonSignature(self):
+        signature = ""
+        self.exons.sort()
+        for exon in self.exons:
+            signature += exon.signature
+        return signature
+
     def categorizeExons(self):
         self.exonsCategorized = True
 
@@ -189,6 +196,7 @@ class Gene():
         self.codingLengths = []
         self.intronLengths = []
         self.exonLengths = []
+        self.exonSignatures = set()
 
         for transcript in self.transcripts.values():
             self.intronsPerTranscript.append(len(transcript.introns))
@@ -196,7 +204,9 @@ class Gene():
             self.intronLengths += transcript.intronLengths
             self.exonLengths += transcript.exonLengths
             self.transcriptCount += 1
+            self.exonSignatures.add(transcript.getExonSignature())
 
+        self.uniqueTranscriptCount = len(self.exonSignatures)
 
 class PredictionAnalysis():
 
@@ -267,6 +277,7 @@ class PredictionAnalysis():
         self.intronLengths = WeightedList()
         self.exonLengths = WeightedList()
         self.transcriptCount = 0
+        self.uniqueTranscriptCount = 0
         self.geneCount = len(self.genes)
 
         for gene in self.genes.values():
@@ -277,6 +288,7 @@ class PredictionAnalysis():
             self.intronLengths.add(gene.intronLengths, w)
             self.exonLengths.add(gene.exonLengths, w)
             self.transcriptCount += w
+            self.uniqueTranscriptCount += gene.uniqueTranscriptCount
 
 
 class WeightedList():
@@ -308,7 +320,8 @@ def main():
     args = parseCmd()
     analysis = PredictionAnalysis(args.annot)
     table = [['Gene count', analysis.geneCount],
-             ['Transcript count', analysis.transcriptCount]]
+             ['Transcript count', analysis.transcriptCount],
+             ['Unique coding tr. count', analysis.uniqueTranscriptCount]]
     print(tabulate(table))
 
     headers = ["Per transcript", "Average", "Median"]
