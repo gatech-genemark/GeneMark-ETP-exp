@@ -1,6 +1,6 @@
 # Instructions for the reference annotation preparation
 
-The annotation comes from FlyBase. NCBI RefSeq is using the FlyBase annotation.
+The annotation comes from WormBase. NCBI RefSeq is using the WormBase annotation.
 
 The commands below were used to prepare the main annotation files:
 
@@ -12,10 +12,13 @@ The processing relies on [GenomeTools](http://genometools.org/) which can be ins
 ```bash
 bin=../../bin
 
-wget http://ftp.flybase.net/genomes/Drosophila_melanogaster/dmel_r6.44_FB2022_01/gff/dmel-all-no-analysis-r6.44.gff.gz
-gunzip  dmel-all-no-analysis-*.gff.gz
+wget ftp://ftp.wormbase.org/pub/wormbase/releases/WS284/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS284.annotations.gff3.gz
+gunzip c_elegans.PRJNA13758.WS284.annotations.gff3.gz
 
-$bin/gff_to_gff_subset.pl  --in dmel-all-no-analysis-r6.44.gff  --out annot.gff3  --list list.tbl  --col 2
+$bin/gff_to_gff_subset.pl  --in c_elegans.PRJNA13758.WS284.annotations.gff3  --out annot.gff3  --list list.tbl  --col 2
+
+grep -P '\tWormBase\t' annot.gff3 >> tmp_annot.gff3
+mv tmp_annot.gff3  annot.gff3
 
 gt  gff3  -force  -tidy  -sort  -retainids  -checkids  -o tmp_annot.gff3  annot.gff3
 mv tmp_annot.gff3  annot.gff3

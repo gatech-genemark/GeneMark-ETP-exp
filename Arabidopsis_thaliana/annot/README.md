@@ -1,6 +1,6 @@
-# Instruction for the reference annotation preparation
+# Instructions for the reference annotation preparation
 
-The annotation comes from TAIR. NCBI RefSeq is using the FlyBase annotation.
+The annotation comes from TAIR. NCBI RefSeq is using the TAIR annotation.
 
 The commands below were used to prepare the main annotation files:
 
