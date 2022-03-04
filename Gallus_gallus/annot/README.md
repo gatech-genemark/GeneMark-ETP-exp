@@ -16,10 +16,10 @@ The processing relies on [GenomeTools](http://genometools.org/) which can be ins
 bin=../../../bin
 mkdir ensembl; cd ensembl
 
-wget http://ftp.ensembl.org/pub/release-103/gff3/gallus_gallus/Gallus_gallus.GRCg6a.103.chr.gff3.gz
-gunzip Gallus_gallus.GRCg6a.103.chr.gff3.gz
+wget http://ftp.ensembl.org/pub/release-105/gff3/gallus_gallus/Gallus_gallus.GRCg6a.105.chr.gff3.gz
+gunzip Gallus_gallus.GRCg6a.105.chr.gff3.gz
 
-$bin/gff_to_gff_subset.pl  --in Gallus_gallus.GRCg6a.103.chr.gff3  --out annot.gff3  --list list.tbl  --col 2
+$bin/gff_to_gff_subset.pl  --in Gallus_gallus.GRCg6a.105.chr.gff3  --out annot.gff3  --list list.tbl  --col 2
 
 gt  gff3  -force  -tidy  -sort  -retainids  -checkids  -o tmp_annot.gff3  annot.gff3
 mv tmp_annot.gff3  annot.gff3
