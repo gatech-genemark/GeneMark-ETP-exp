@@ -244,6 +244,7 @@ class PenaltyEstimator():
 
     def scan(self):
         p = self.args.penaltyMin
+        print("penalty\tgenes\texons")
         while p <= self.args.penaltyMax:
             self.predictWithPenalty(p)
             print("\t".join([str(p),
