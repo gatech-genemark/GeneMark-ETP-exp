@@ -119,6 +119,7 @@ class PenaltyEstimator():
         self.mod = args.model
         self.args = args
         self.pCache = {}
+        self.pExonCache = {}
 
     def preparePredictionContigs(self, seq, pred, margin):
         borders = loadGeneBorders(pred)
@@ -219,7 +220,7 @@ class PenaltyEstimator():
         os.chdir(dirpath)
 
         systemCall(self.args.GMES_PATH + "gmes_petap.pl --seq " + 
-                   self.contigs + " --soft_mask 1000 --max_mask 1000000 " +
+                   self.contigs + " --soft_mask 1000 --max_mask 40000 " +
                    " --predict_with " + self.mod + " --cores " +
                    self.args.threads + " --mask_penalty " + str(penalty))
 
@@ -229,10 +230,26 @@ class PenaltyEstimator():
                                  " --f2 genemark.gtf --gene | head -2 |" +
                                  "tail -1 | cut -f2")
 
+        compareOutExon = checkOutput(self.args.binDir +
+                                     "/compare_intervals_exact.pl --f1 "
+                                     + self.reference +
+                                     " --f2 genemark.gtf | head -2 |" +
+                                     "tail -1 | cut -f2")
+
         os.chdir('..')
         shutil.rmtree(dirpath)
         self.pCache[str(penalty)] = int(compareOut)
+        self.pExonCache[str(penalty)] = int(compareOutExon)
         return self.pCache[str(penalty)]
+
+    def scan(self):
+        p = self.args.penaltyMin
+        while p <= self.args.penaltyMax:
+            self.predictWithPenalty(p)
+            print("\t".join([str(p),
+                             str(self.pCache[str(p)]),
+                             str(self.pExonCache[str(p)])]))
+            p = round(p + self.args.startingStep, 2)
 
     def cleanup(self):
         os.remove(self.reference)
@@ -242,8 +259,11 @@ class PenaltyEstimator():
 def main():
     args = parseCmd()
     estimator = PenaltyEstimator(args)
-    estimator.estimate()
-    estimator.cleanup()
+    if not args.scan:
+        estimator.estimate()
+        estimator.cleanup()
+    else:
+        estimator.scan()
 
 
 def parseCmd():
@@ -286,6 +306,10 @@ def parseCmd():
 
     parser.add_argument('--GMES_PATH', type=str, default='',
                         help='Path to folder with gmes_petap.pl')
+
+    parser.add_argument('--scan', action='store_true', help='Scan all penalty\
+        values from min to max with the specified STARTINGSTEP and save the\
+        results. This DOES NOT estimate any masking penalty.')
 
     args = parser.parse_args()
 
