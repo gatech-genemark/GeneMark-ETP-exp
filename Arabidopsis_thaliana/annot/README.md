@@ -14,7 +14,7 @@ bin=../../bin
 
 wget https://www.arabidopsis.org/download_files/Genes/Araport11_genome_release/archived/Araport11_GFF3_genes_transposons.Mar92021.gff.gz
 gunzip Araport11_GFF3_genes_transposons.Mar92021.gff.gz
-$bin/gff_to_gff_subset.pl --in Araport11_GFF3_genes_transposons.Mar92021.gff --out annot.gff3 --list list.tbl --col 2
+$bin/gff_to_gff_subset.pl --in Araport11_GFF3_genes_transposons.Mar92021.gff --out annot.gff3 --list list.tbl --col 1 --v --swap
 
 gt  gff3  -force  -tidy  -sort  -retainids  -checkids  -o tmp_annot.gff3  annot.gff3
 mv tmp_annot.gff3  annot.gff3
