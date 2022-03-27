@@ -47,6 +47,7 @@ gt  gff3  -force  -tidy  -sort  -retainids  -checkids  -o tmp_annot.gff3  annot.
 mv tmp_annot.gff3  annot.gff3
 
 $bin/select_pseudo_from_nice_gff3.pl annot.gff3 pseudo.gff3
+sed -i "s/Curated Genomic/Curaged_Genomic/" pseudo.gff3
 
 $bin/enrich_gff.pl --in annot.gff3 --out tmp_annot.gff3 --cds --v --warnings
 mv tmp_annot.gff3  annot.gff3
@@ -60,5 +61,5 @@ $bin/gff3_to_gtf.pl annot.gff3 annot.gtf
 bin=../../bin
 ln -s refseq/annot.gtf
 ln -s refseq/pseudo.gff3
-$bin/intersectAnnots.sh refseq/annot.gtf ensembl/annot.gtf > reliable.gtf
+$bin/intersectAnnots.sh refseq/annot.gtf itag/annot.gtf > reliable.gtf
 ```
