@@ -37,6 +37,8 @@ def temp(prefix, suffix):
 def cleanup(cleanupList):
     for file in cleanupList:
         os.remove(file)
+    if len(os.listdir("tempfiles")) == 0:
+        shutil.rmtree("tempfiles")
 
 
 def systemCall(cmd):
