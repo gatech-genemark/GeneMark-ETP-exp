@@ -52,8 +52,14 @@ def readGff(gffFile):
 
 def makeRegions(ids, trace):
     regions = temp("regions", ".bed").name
-    systemCall('grep -Ff <(awk \'{print $1"\t"}\' ' + ids + ') ' + trace +
-               ' | awk \'BEGIN{OFS="\t"}{print $2, $3-1, $4}\' > ' + regions)
+    if ids:
+        systemCall('grep -Ff <(awk \'{print $1"\t"}\' ' + ids + ') ' + trace +
+                   ' | awk \'BEGIN{OFS="\t"}{print $2, $3-1, $4}\' > ' +
+                   regions)
+    else:
+        systemCall('grep nonhc ' + trace +
+                   ' | awk \'BEGIN{OFS="\t"}{print $2, $3-1, $4}\' > ' +
+                   regions)
     return regions
 
 
@@ -130,12 +136,17 @@ def main():
     args = parseCmd()
     if not os.path.exists(args.outputFolder):
         os.makedirs(args.outputFolder)
-    selectInLCRegions(args.lowIds, args.trace, args.hcRegions, args.annot,
-                      args.outputFolder + "/low.gtf")
-    selectInLCRegions(args.mediumIds, args.trace, args.hcRegions, args.annot,
-                      args.outputFolder + "/medium.gtf")
-    selectInLCRegions(args.highIds, args.trace, args.hcRegions, args.annot,
-                      args.outputFolder + "/high.gtf")
+
+    if args.lowIds:
+        selectInLCRegions(args.lowIds, args.trace, args.hcRegions, args.annot,
+                          args.outputFolder + "/low.gtf")
+        selectInLCRegions(args.mediumIds, args.trace, args.hcRegions,
+                          args.annot, args.outputFolder + "/medium.gtf")
+        selectInLCRegions(args.highIds, args.trace, args.hcRegions, args.annot,
+                          args.outputFolder + "/high.gtf")
+    else:
+        selectInLCRegions(None, args.trace, args.hcRegions, args.annot,
+                          args.outputFolder + "/lc.gtf")
 
     selectInHCRegions(args.hcRegions, args.annot, args.outputFolder)
 
@@ -153,15 +164,21 @@ def parseCmd():
         spanning two different segments.')
 
     parser.add_argument('annot', metavar='annot.gtf', type=str)
-    parser.add_argument('lowIds', metavar='low.ids', type=str)
-    parser.add_argument('mediumIds', metavar='medium.ids', type=str)
-    parser.add_argument('highIds', metavar='high.ids', type=str)
+    parser.add_argument('--lowIds', metavar='low.ids', type=str)
+    parser.add_argument('--mediumIds', metavar='medium.ids', type=str)
+    parser.add_argument('--highIds', metavar='high.ids', type=str)
     parser.add_argument('trace', metavar='nonhc.trace', type=str)
     parser.add_argument('hcRegions', metavar='hc_regions.gtf', type=str)
     parser.add_argument('HC', metavar='hc_gmst.gtf', type=str)
     parser.add_argument('outputFolder', type=str)
 
-    return parser.parse_args()
+    args = parser.parse_args()
+    idsCount = bool(args.lowIds) + bool(args.mediumIds) + bool(args.highIds)
+
+    if idsCount > 0 and idsCount < 3:
+        sys.exit("Either all or none low/medium/high ids must be specified.")
+
+    return args
 
 
 if __name__ == '__main__':
