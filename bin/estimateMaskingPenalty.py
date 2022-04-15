@@ -156,6 +156,7 @@ class PenaltyEstimator():
 
         selected = self.largestAllowed(minP, nextP, self.args.startingStep)
         sys.stderr.write("Masking penalty was set to " + str(selected) + "\n")
+        return selected
 
     def largestAllowed(self, minP, maxP, step):
         if step < self.args.minStep:
@@ -216,7 +217,7 @@ class PenaltyEstimator():
         sys.stderr.write("Running prediction with masking penalty = " +
                          str(penalty) + "\n")
 
-        dirpath = tempfile.mkdtemp(prefix = "gmes", dir='.')
+        dirpath = tempfile.mkdtemp(prefix="gmes", dir='.')
         os.chdir(dirpath)
 
         systemCall(self.args.GMES_PATH + "gmes_petap.pl --seq " + 
@@ -261,7 +262,7 @@ def main():
     args = parseCmd()
     estimator = PenaltyEstimator(args)
     if not args.scan:
-        estimator.estimate()
+        print(estimator.estimate())
         estimator.cleanup()
     else:
         estimator.scan()
