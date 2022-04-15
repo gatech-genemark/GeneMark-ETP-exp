@@ -15,6 +15,7 @@ import csv
 import sys
 import shutil
 import re
+import logging
 
 
 def temp(prefix, suffix):
@@ -130,9 +131,9 @@ class PenaltyEstimator():
         self.baselinePenalty = self.argMaxReliable(self.args.penaltyMin,
                                                    self.args.penaltyMax,
                                                    self.args.startingStep)
-        sys.stderr.write("Selected baseline penalty for the maximum # of " +
-                         "correct reliable predictions: " +
-                         str(self.baselinePenalty) + "\n")
+        logging.info("Selected baseline penalty for the maximum # of " +
+                     "correct reliable predictions: " +
+                     str(self.baselinePenalty))
 
         maxReliable = self.pCache[str(self.baselinePenalty)]
         # Select the maximum value of a penalty which preserves the specified
@@ -155,7 +156,7 @@ class PenaltyEstimator():
             p = round(p + self.args.minStep, 2)
 
         selected = self.largestAllowed(minP, nextP, self.args.startingStep)
-        sys.stderr.write("Masking penalty was set to " + str(selected) + "\n")
+        logging.info("Masking penalty was set to " + str(selected))
         return selected
 
     def largestAllowed(self, minP, maxP, step):
@@ -180,10 +181,10 @@ class PenaltyEstimator():
         return self.largestAllowed(bestPenalty, maxP, round(step / 2, 2))
 
     def argMaxReliable(self, minP, maxP, step):
-        sys.stderr.write("Finding masking penalty maximizing the number of " +
-                         "correctly predicted reliable genes in range from " +
-                         str(minP) + " to " + str(maxP) + " with step " +
-                         str(step) + "\n")
+        logging.info("Finding masking penalty maximizing the number of " +
+                     "correctly predicted reliable genes in range from " +
+                     str(minP) + " to " + str(maxP) + " with step " +
+                     str(step))
 
         if step < self.args.minStep:
             sys.exit("Error: Unexpected step during max estimation.")
@@ -214,8 +215,8 @@ class PenaltyEstimator():
         if str(penalty) in self.pCache:
             return self.pCache[str(penalty)]
 
-        sys.stderr.write("Running prediction with masking penalty = " +
-                         str(penalty) + "\n")
+        logging.info("Running prediction with masking penalty = " +
+                     str(penalty))
 
         dirpath = tempfile.mkdtemp(prefix="gmes", dir='.')
         os.chdir(dirpath)
@@ -260,6 +261,8 @@ class PenaltyEstimator():
 
 def main():
     args = parseCmd()
+    logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s',
+                        datefmt='%d-%b-%y %H:%M:%S', level=logging.INFO)
     estimator = PenaltyEstimator(args)
     if not args.scan:
         print(estimator.estimate())
