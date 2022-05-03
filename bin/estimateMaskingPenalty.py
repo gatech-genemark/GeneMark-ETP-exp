@@ -119,7 +119,7 @@ class PenaltyEstimator():
         self.preparePredictionContigs(args.seq, args.pred, args.margin)
         self.mod = args.model
         self.args = args
-        self.pCache = {}
+        self.pGeneCache = {}
         self.pExonCache = {}
 
     def preparePredictionContigs(self, seq, pred, margin):
@@ -135,14 +135,14 @@ class PenaltyEstimator():
                      "correct reliable predictions: " +
                      str(self.baselinePenalty))
 
-        maxReliable = self.pCache[str(self.baselinePenalty)]
+        maxReliable = self.pExonCache[str(self.baselinePenalty)]
         # Select the maximum value of a penalty which preserves the specified
-        # fraction of baseline reliable genes out of the already computed vals
+        # fraction of baseline reliable exons out of the already computed vals
         minP = self.baselinePenalty
         p = round(self.baselinePenalty + self.args.minStep, 2)
         while p <= self.args.penaltyMax:
-            if str(p) in self.pCache:
-                if self.pCache[str(p)] / maxReliable >= self.args.minRelFrac:
+            if str(p) in self.pExonCache:
+                if self.pExonCache[str(p)] / maxReliable >= self.args.minRelFrac:
                     minP = p
             p = round(p + self.args.minStep, 2)
 
@@ -150,7 +150,7 @@ class PenaltyEstimator():
         nextP = self.args.penaltyMax
         p = round(minP + self.args.minStep, 2)
         while p <= self.args.penaltyMax:
-            if str(p) in self.pCache:
+            if str(p) in self.pExonCache:
                 nextP = p
                 break
             p = round(p + self.args.minStep, 2)
@@ -162,7 +162,7 @@ class PenaltyEstimator():
     def largestAllowed(self, minP, maxP, step):
         if step < self.args.minStep:
             sys.exit("Error: Unexpected step during largest p. estimation.")
-        maxReliable = self.pCache[str(self.baselinePenalty)]
+        maxReliable = self.pExonCache[str(self.baselinePenalty)]
         bestPenalty = minP
 
         p = minP
@@ -182,7 +182,7 @@ class PenaltyEstimator():
 
     def argMaxReliable(self, minP, maxP, step):
         logging.info("Finding masking penalty maximizing the number of " +
-                     "correctly predicted reliable genes in range from " +
+                     "correctly predicted reliable exons in range from " +
                      str(minP) + " to " + str(maxP) + " with step " +
                      str(step))
 
@@ -212,8 +212,8 @@ class PenaltyEstimator():
         return self.argMaxReliable(minP, maxP, round(step / 2, 2))
 
     def predictWithPenalty(self, penalty):
-        if str(penalty) in self.pCache:
-            return self.pCache[str(penalty)]
+        if str(penalty) in self.pExonCache:
+            return self.pExonCache[str(penalty)]
 
         logging.info("Running prediction with masking penalty = " +
                      str(penalty))
@@ -240,9 +240,9 @@ class PenaltyEstimator():
 
         os.chdir('..')
         shutil.rmtree(dirpath)
-        self.pCache[str(penalty)] = int(compareOut)
+        self.pGeneCache[str(penalty)] = int(compareOut)
         self.pExonCache[str(penalty)] = int(compareOutExon)
-        return self.pCache[str(penalty)]
+        return self.pExonCache[str(penalty)]
 
     def scan(self):
         p = self.args.penaltyMin
@@ -250,7 +250,7 @@ class PenaltyEstimator():
         while p <= self.args.penaltyMax:
             self.predictWithPenalty(p)
             print("\t".join([str(p),
-                             str(self.pCache[str(p)]),
+                             str(self.pGeneCache[str(p)]),
                              str(self.pExonCache[str(p)])]))
             p = round(p + self.args.startingStep, 2)
 
@@ -304,9 +304,9 @@ def parseCmd():
     parser.add_argument('--minStep', type=float, default=0.01,
                         help='Smallest search step.')
 
-    parser.add_argument('--minRelFrac', type=float, default=0.995,
+    parser.add_argument('--minRelFrac', type=float, default=0.998,
                         help='Find the maximum value preserving at least \
-                        MINRELFRAC of the maximum number of reliable genes \
+                        MINRELFRAC of the maximum number of reliable exons \
                         correctly predicted.')
 
     parser.add_argument('--GMES_PATH', type=str, default='',
