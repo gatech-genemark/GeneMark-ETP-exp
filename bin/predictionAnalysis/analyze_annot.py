@@ -208,11 +208,11 @@ class Gene():
 
         self.uniqueTranscriptCount = len(self.exonSignatures)
 
+
 class PredictionAnalysis():
 
     def __init__(self, prediction):
         self.fileType = os.path.splitext(prediction)[1]
-        print(self.fileType)
         self.loadPrediction(prediction)
 
     def loadPrediction(self, prediction):

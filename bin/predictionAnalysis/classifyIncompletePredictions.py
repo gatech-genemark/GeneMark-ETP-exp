@@ -11,7 +11,10 @@ import argparse
 import csv
 import re
 import os
-import subprocess
+import tempfile
+import analyze_annot
+import sys
+import shutil
 
 
 def extractFeatureGtf(text, feature):
@@ -194,18 +197,34 @@ def comparePredictions(annotations, predictions, output):
     assemblyError.close()
 
 
+def printOutput(outFolder):
+    files = os.listdir(outFolder)
+    files.sort()
+    outFile = open(outFolder + "/out.txt", "w")
+    for file in files:
+        if not file.endswith(".gtf"):
+            continue
+        c = analyze_annot.PredictionAnalysis(outFolder + '/' + file).geneCount
+        print("\t".join([file, str(c)]))
+        outFile.write("\t".join([file, str(c)]) + "\n")
+    outFile.close()
+
+
 def main():
     args = parseCmd()
-    if not os.path.exists(args.output):
-        os.makedirs(args.output)
+    if args.output and os.path.exists(args.output):
+        sys.exit("Warning: The output folder already exists. Exiting.")
 
     annotations = loadGtf(args.annot)
     predictions = loadGtf(args.pred)
-    comparePredictions(annotations, predictions, args.output)
+    workdir = tempfile.mkdtemp(dir=".")
+    comparePredictions(annotations, predictions, workdir)
+    printOutput(workdir)
 
-    subprocess.call(f'cd {args.output}; ls *.gtf | xargs -I X bash -c "paste \
-        <(echo X) <(analyze_annot.sh X | head -4 | tail -1)" | \
-        sed "s/Gene count://" | column -t > out.txt', shell=True)
+    if args.output:
+        shutil.move(workdir, args.output)
+    else:
+        shutil.rmtree(workdir)
 
 
 def parseCmd():
@@ -215,7 +234,9 @@ def parseCmd():
 
     parser.add_argument('annot', metavar='completeAnnot.gtf', type=str)
     parser.add_argument('pred', metavar='prediction.gtf', type=str)
-    parser.add_argument('output', metavar='outputFolder', type=str)
+    parser.add_argument('--output', metavar='outputFolder', type=str,
+                        help="If specified, classified files will be saved\
+                        here in gtf format.")
 
     return parser.parse_args()
 
