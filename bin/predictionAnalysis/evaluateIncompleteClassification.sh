@@ -32,11 +32,11 @@ $bindir/classifyIncompletePredictions.py $annot $longest --out "$out" > /dev/nul
 
 # There will be a mismatch due to some predictions having no protein hits
 #echo -e "Truly incomplete:\t"$(grep -Po "transcript_id[^;]+" "$out/incomplete.gtf" | sort | uniq | wc -l)""
-#echo -e "Actuall complete:\t"$(grep -Po "transcript_id[^;]+" "$out/longer.gtf" | sort | uniq | wc -l)""
+#echo -e "Actually complete:\t"$(grep -Po "transcript_id[^;]+" "$out/longer.gtf" | sort | uniq | wc -l)""
 #echo "---"
 
-echo -e ".\tActually_complete\tTruly_incomplete"
-echo -en "Predicted_complete\t"
+echo -e "\tActually complete\tTruly incomplete"
+echo -en "Predicted complete\t"
 
 tp=$(grep -o -Ff <(grep -Po "transcript_id[^;]+" "$out/longer.gtf") \
     "$input/upLORF_Complete_Unfiltered.gtf" | sort | uniq | wc -l)
@@ -46,7 +46,7 @@ fp=$(grep -o -Ff <(grep -Po "transcript_id[^;]+" "$out/incomplete.gtf") \
     "$input/upLORF_Complete_Unfiltered.gtf" | sort | uniq | wc -l)
 echo "$fp"
 
-echo -en "Predicted_incomplete\t"
+echo -en "Predicted incomplete\t"
 fn=$(grep -o -Ff <(grep -Po "transcript_id[^;]+" "$out/longer.gtf") \
     "$input/upLORF_Partial_Unfiltered.gtf" | sort | uniq | wc -l)
 echo -en "$fn\t"
@@ -55,10 +55,8 @@ tn=$(grep -o -Ff <(grep -Po "transcript_id[^;]+" "$out/incomplete.gtf") \
     "$input/upLORF_Partial_Unfiltered.gtf" | sort | uniq | wc -l)
 echo "$tn"
 
-echo "---"
-printf "Complete fixed: %.2f\n" $(bc -l <<< "100*$tp/($tp+$fn)")
-printf "Incomplete incorrectly classified as complete: %.2f\n" $(bc -l <<< "100*$fp/($fp+$tn)")
-
+printf "Sensitivity\t%.2f\t\n" $(bc -l <<< "100*$tp/($tp+$fn)")
+printf "Error rate\t%.2f\t\n" $(bc -l <<< "100*$fp/($fp+$tn)")
 
 rm -r $out
 rm $longest
