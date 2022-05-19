@@ -134,3 +134,25 @@ paste <(printRowNames Exon) \
                     $(($(TP "$incompleteFullExon") + $(TP "$completeFullExon"))) \
                     $(($(FP "$incompleteFullExon") - $(Incomplete "$incompleteFullGene") + $(FP "$completeFullExon")))\
                     $(P "$incompleteReliableExon"))
+
+
+#Longest isoform per gene
+completeS=$(mktemp -p .)
+${bindir}/print_longest_isoform.py $complete > $completeS
+completeReliableGeneS="$(reliable gene $completeS)"
+completeFullGeneS="$(full gene $completeS)"
+echo "---Longest isoform per gene---"
+paste <(printRowNames Gene) \
+      <(printColumn $(TP "$completeReliableGeneS") \
+                    $(TP "$completeFullGeneS") \
+                    $(FP "$completeFullGeneS") \
+                    $(P "$completeReliableGeneS")) \
+      <(printColumn $(TPIncomplete "$incompleteReliableGene") \
+                    $(TPIncomplete "$incompleteFullGene") \
+                    $(FPIncomplete "$incompleteFullGene") \
+                    $(P "$completeReliableGene")) \
+      <(printColumn $(($(TPIncomplete "$incompleteReliableGene") + $(TP "$completeReliableGeneS"))) \
+                    $(($(TPIncomplete "$incompleteFullGene") + $(TP "$completeFullGeneS"))) \
+                    $(($(FPIncomplete "$incompleteFullGene") + $(FP "$completeFullGeneS"))) \
+                    $(P "$completeReliableGeneS"))
+rm $completeS
