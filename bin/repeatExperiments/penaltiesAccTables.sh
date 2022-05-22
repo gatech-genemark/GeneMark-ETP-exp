@@ -28,7 +28,7 @@ singleTable() {
     ls -d 0.00 | xargs -I {} bash -c 'echo -en "baseline\t"; grep $type {}/$accFile | cut -f2 | head -3 | tr "\n" "\t" | sed -E "s/\t$//"; echo'
 }
 
-${bindir}/../splitAnnotIntoRegions.py ../../../annot/annot.gtf \
+${bindir}/../splitAnnotIntoRegions.py ../../../annot/reliable.gtf \
    ../../nonhc/nonhc.trace  ../../hc_regions.gtf ../../model/hc.gff \
    annotRegions
 

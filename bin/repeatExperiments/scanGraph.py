@@ -23,8 +23,9 @@ def plot(data, output, title, ymin, ymax):
 
     data = processData(data)
 
-    #fig, ax1 = plt.subplots(figsize=(6.4, 5.8))
-    fig, ax1 = plt.subplots()
+    s = 1.5
+    fig, ax1 = plt.subplots(figsize=(6.4 / s, 4.8 / s))
+    #fig, ax1 = plt.subplots()
 
     # = "tab:blue"
 
@@ -32,7 +33,7 @@ def plot(data, output, title, ymin, ymax):
     #          lw=1, label='Frac. of correct genes')
 
     ax1.plot(data["penalty"], data["exonSn"], linestyle='-', marker='.',
-             lw=1, label='Frac. of correct exons')
+             lw=1, label='% of correct exons')
 
     # ax1.axhline(max(data["geneSn"]), 0, 1,
     #             lw=0.8, linestyle='--',  label='Baseline', color="tab:grey")
@@ -47,7 +48,7 @@ def plot(data, output, title, ymin, ymax):
                 alpha = 1)
 
     ax1.set_xlabel("Repeat penalty")
-    ax1.set_ylabel("Percentage of correct High-Confidence exons")
+    ax1.set_ylabel("%")
 
     ax1.set_ylim(ymin, ymax)
 
@@ -81,8 +82,8 @@ def parseCmd():
         scan script.")
     parser.add_argument('output', type=str)
     parser.add_argument('--title', default="", type=str)
-    parser.add_argument('--ymin', type=float, default=95)
-    parser.add_argument('--ymax', type=float, default=105)
+    parser.add_argument('--ymin', type=float, default=98)
+    parser.add_argument('--ymax', type=float, default=101)
 
     return parser.parse_args()
 
