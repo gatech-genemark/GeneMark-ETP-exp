@@ -14,9 +14,9 @@ the GeneMark-ETP+ project.
 
 ### Genome sequences 
 
-All genome sequences were downloaded from RefSeq section of NCBI. For each genome we parsed out unique sequence identifiers [accession.version](https://www.ncbi.nlm.nih.gov/genbank/sequenceids/) from FASTA definition lines. New, simplified sequence IDs were introduced. Information about original and new IDs was saved as a table into file "chr.names".
+All genome sequences were downloaded from RefSeq section of NCBI. For each genome we parsed out unique sequence identifiers [accession.version](https://www.ncbi.nlm.nih.gov/genbank/sequenceids/) from FASTA definition lines. New, simplified sequence IDs were introduced. Information about original and new IDs was saved as a table into file `$SPECIES/data/chr.names`.
 
-An example of such table for genome of A.thaliana is shown below:
+An example of such table for the genome of A.thaliana is shown below:
 
 | original ID | new ID |
 | --- | --- |
@@ -26,7 +26,7 @@ An example of such table for genome of A.thaliana is shown below:
 | NC_003075.7 | 4 |
 | NC_003076.8 | 5 |
 
-Only genome sequences from nuclear were used in ETP project. Also, we limited analysis to chromosomes (sequences with prefix "NC_") and main genomic contigs (sequences with prefix "NT_"). 
+Only genome sequences from nuclear DNA were used in ETP project. Also, we limited the analysis to chromosomes (sequences with prefix "NC_") and main genomic contigs (sequences with prefix "NT_"). 
 
 ### Reference annotations
 
@@ -39,5 +39,3 @@ All annotation statistics were collected with the `bin/analyze_annot.py` scipt.
 ls */annot/annot.gtf | xargs -P7 -I {} bash -c 'bin/analyze_annot.py {} > {}.analysis'
 ls */annot/reliable.gtf | xargs -P7 -I {} bash -c 'bin/analyze_annot.py {} > {}.analysis'
 ```
-
-TODO: Archive and upload annotations.
