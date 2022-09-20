@@ -14,7 +14,7 @@ the GeneMark-ETP+ project.
 
 ### Genome sequences 
 
-All genome sequences were downloaded from RefSeq section of NCBI. For each genome we parsed out unique sequence identifiers [accession.version](https://www.ncbi.nlm.nih.gov/genbank/sequenceids/) from FASTA definition lines. New, simplified sequence IDs were introduced. Information about original and new IDs was saved as a table into file `$SPECIES/data/chr.names`.
+All genome sequences were downloaded from RefSeq section of NCBI (the links are saved in `$SPECIES/data/README.md`). For each genome we parsed out unique sequence identifiers [accession.version](https://www.ncbi.nlm.nih.gov/genbank/sequenceids/) from FASTA definition lines. New, simplified sequence IDs were introduced. Information about original and new IDs was saved as a table into file `$SPECIES/data/chr.names`.
 
 An example of such table for the genome of A.thaliana is shown below:
 
