@@ -26,7 +26,21 @@ An example of such table for the genome of A.thaliana is shown below:
 | NC_003075.7 | 4 |
 | NC_003076.8 | 5 |
 
-Only genome sequences from nuclear DNA were used in ETP project. Also, we limited the analysis to chromosomes (sequences with prefix "NC_") and main genomic contigs (sequences with prefix "NT_"). 
+Only genome sequences from nuclear DNA were used in ETP project. Also, we limited the analysis to chromosomes (sequences with prefix "NC_") and main genomic contigs (sequences with prefix "NT_"). The processed sequences were saved into `$SPECIES/data/genome.fasta`.
+
+### Repeat masking
+
+Each genome was _de novo_ masked by RepeatModeler2 (v2.0.1) and RepeatMasker (v4.1.0) as follows:
+
+```bash
+BuildDatabase -name genome genome.fasta
+RepeatModeler -database genome -srand 1 -pa 16 -LTRStruct > rmodeler.out
+RepeatMasker -pa 16 -lib genome-families.fa -xsmall genome.fasta > rmasker.out
+```
+
+### Protein database preparation
+
+Input protein sets were downloaded from [OrthoDB](https://www.orthodb.org/) (v10.1) and processed as described for each species in `$SPECIES/data/README.md`.
 
 ### Reference annotations
 
