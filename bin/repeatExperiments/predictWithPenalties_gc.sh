@@ -13,6 +13,7 @@ fi
 bindir=$(readlink -e $(dirname "${BASH_SOURCE[0]}"))
 export PATH=$bindir:$PATH
 
+# Adjust etp path according to its location
 
 predictInGC() {
    gc=$1; shift

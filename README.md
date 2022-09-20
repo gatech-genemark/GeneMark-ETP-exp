@@ -1,4 +1,4 @@
-# Experiments for the GeneMark-ETP+ project
+# Experiments for the GeneMark-ETP project
 
 Tomas Bruna, Alexandre Lomsadze, Mark Borodovsky
 
@@ -6,11 +6,9 @@ Georgia Institute of Technology, Atlanta, Georgia, USA
 
 Reference: TODO
 
+This repository contains documentation of experiments, data and results for the GeneMark-ETP project.
 
-## Overview
-
-This repository contains documentation of experiments, data and results for
-the GeneMark-ETP+ project.
+## Input data preparation
 
 ### Genome sequences 
 
@@ -53,3 +51,21 @@ All annotation statistics were collected with the `bin/analyze_annot.py` scipt.
 ls */annot/annot.gtf | xargs -P7 -I {} bash -c 'bin/analyze_annot.py {} > {}.analysis'
 ls */annot/reliable.gtf | xargs -P7 -I {} bash -c 'bin/analyze_annot.py {} > {}.analysis'
 ```
+
+
+## Evaluation
+
+
+### Repeat masking experiments
+
+```bash
+cd $SPECIES/$etp_prediction_folder
+../../bin/repeatExperiments/predictWithPenalties.sh
+cd maskingExperiments/penaltyPredictions/
+../../../../bin/repeatExperiments/penaltiesAccTables.sh
+# Adjust ymin and ymax as needed
+../../../../bin/repeatExperiments/penaltiesGraph.py gene.acc gene.acc.pdf --ymin 60 --ymax 85
+../../../../bin/repeatExperiments/penaltiesGraph.py cds.acc cds.acc.pdf --ymin 60 --ymax 85
+```
+
+Run the "gc" versions of these scripts for GC-heterogeneous genomes (_M. musculus_ and _G. gallus_).

@@ -3,6 +3,7 @@
 # Tomas Bruna
 #
 # Predict genes in LC regions with different penalty values
+#
 # ==============================================================
 
 if  [ "$#" -ne 0 ]; then
@@ -16,6 +17,8 @@ export PATH=$bindir:$PATH
 
 mkdir -p maskingExperiments/penaltyPredictions
 cd maskingExperiments/penaltyPredictions
+
+# Adjust etp path according to its location
 
 for i in $(seq 0 0.01 0.2)
 do
