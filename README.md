@@ -64,8 +64,8 @@ cd $SPECIES/$etp_prediction_folder
 cd maskingExperiments/penaltyPredictions/
 ../../../../bin/repeatExperiments/penaltiesAccTables.sh
 # Adjust ymin and ymax as needed
-../../../../bin/repeatExperiments/penaltiesGraph.py gene.acc gene.acc.pdf --ymin 60 --ymax 85
-../../../../bin/repeatExperiments/penaltiesGraph.py cds.acc cds.acc.pdf --ymin 60 --ymax 85
+../../../../bin/repeatExperiments/penaltiesGraph.py gene.acc gene.acc.pdf --ymin 60 --ymax 85 --selected $penalty_value_predicted_by_ETP
+../../../../bin/repeatExperiments/penaltiesGraph.py cds.acc cds.acc.pdf --ymin 60 --ymax 85 --selected $penalty_value_predicted_by_ETP
 ```
 
 Run the "gc" versions of these scripts for GC-heterogeneous genomes (_M. musculus_ and _G. gallus_).
