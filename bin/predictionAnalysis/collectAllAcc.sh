@@ -23,7 +23,8 @@ ls other/*/genemark.gtf \
     other/braker1/braker/augustus.hints.gtf \
     other/braker2/*/braker/augustus.hints.gtf \
     */genemark.gtf \
-    */supported/genemark.gtf \
+    */genemark_supported.gtf \
+    */supported/*.gtf \
     rnaseq/hints/*/*.gtf | \
     xargs -P 64 -I {} bash -c \
     "${bindir}/collectAcc.sh $full $reliable $pseudo {} > {}.acc"
