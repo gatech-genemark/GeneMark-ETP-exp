@@ -72,6 +72,8 @@ bin/accFigures/makeAllFigures.sh
 
 ### Repeat masking experiments
 
+The following commands generate the figure showing the prediction accuracy with respect to the masking penalty value.
+
 ```bash
 cd $SPECIES/$etp_prediction_folder
 ../../bin/repeatExperiments/predictWithPenalties.sh
@@ -83,3 +85,11 @@ cd maskingExperiments/penaltyPredictions/
 ```
 
 Run the "gc" versions of these scripts for GC-heterogeneous genomes (_M. musculus_ and _G. gallus_).
+
+To make the figure showing the masking training behavior, run the estimate masking script in the scan mode and visualize the results as follows:
+
+```bash
+cd $SPECIES/$etp_prediction_folder/scan
+../../../../bin/estimateMaskingPenalty.py --GMES_PATH $path_to_gmes --scan $predicted_hc_genes ../../../data/genome.softmasked.fasta $etp_model --threads 64 --startingStep 0.01 --minStep 0.01
+../../../../bin/repeatExperiments/scanGraph.py out scanGraph.png
+```
