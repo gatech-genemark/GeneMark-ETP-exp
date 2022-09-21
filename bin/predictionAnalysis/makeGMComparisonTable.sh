@@ -2,7 +2,7 @@
 # ==============================================================
 # Tomas Bruna
 #
-# Make the main HC classification table
+# Make the GeneMark copmarison table
 # ==============================================================
 
 if  [ "$#" -ne 0 ]; then

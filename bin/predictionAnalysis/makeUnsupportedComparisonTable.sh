@@ -2,7 +2,7 @@
 # ==============================================================
 # Tomas Bruna
 #
-# Make the main HC classification table
+# Make the main copmarison of supported/unsupported predictions
 # ==============================================================
 
 if  [ "$#" -ne 0 ]; then

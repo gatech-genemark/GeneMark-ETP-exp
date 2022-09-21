@@ -55,6 +55,20 @@ ls */annot/reliable.gtf | xargs -P7 -I {} bash -c 'bin/analyze_annot.py {} > {}.
 
 ## Evaluation
 
+The `bin` folder contains scripts for generating all tables and figures presented in the paper.
+
+First, the following script computes the accuracy of all gene prediction results (including intermediate results) made for the genome of a species `$SPECIES`.
+
+```
+cd $SPECIES
+../bin/predictionAnalysis/collectAllAcc.sh
+```
+
+Then, the scripts in `bin/accFigures` and `bin/predictionAnalysis` can be used to collect the accuracy results and generate any of the figures and tables. See the documentation of each script for details. For example, the following command generates all the main accuracy figures (which are also saved in this repository in `$SPECIES/acc_figures`):
+
+```bash
+bin/accFigures/makeAllFigures.sh
+```
 
 ### Repeat masking experiments
 
