@@ -1,0 +1,10 @@
+---
+species: Caenorhabditis_elegans
+genome_path: data/genome.fasta.masked
+rnaseq_sets: [
+  SRR065717,
+  SRR065719,
+  SRR473298,
+  SRR2054452,
+]
+protdb_path: data/species_excluded.fa

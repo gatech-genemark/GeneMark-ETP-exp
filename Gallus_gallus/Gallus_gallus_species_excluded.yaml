@@ -1,0 +1,10 @@
+---
+species: Gallus_gallus
+genome_path: data/genome.fasta.masked
+rnaseq_sets: [
+  ERR2812450,
+  SRR3971633,
+  SRR6337028,
+  SRR11038071,
+]
+protdb_path: data/species_excluded.fa

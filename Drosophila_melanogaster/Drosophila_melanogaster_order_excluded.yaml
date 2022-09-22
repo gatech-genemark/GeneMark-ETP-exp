@@ -1,0 +1,11 @@
+---
+species: Drosophila_melanogaster
+genome_path: data/genome.fasta.masked
+rnaseq_sets: [
+  SRR023505,
+  SRR023546,
+  SRR023608,
+  SRR026433,
+  SRR027108,
+]
+protdb_path: data/order_excluded.fa

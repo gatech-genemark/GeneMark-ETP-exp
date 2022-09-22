@@ -1,0 +1,9 @@
+---
+species: Mus_musculus
+genome_path: data/genome.fasta.masked
+rnaseq_sets: [
+  SRR567480,
+  SRR567482,
+  SRR567497,
+]
+protdb_path: data/order_excluded.fa

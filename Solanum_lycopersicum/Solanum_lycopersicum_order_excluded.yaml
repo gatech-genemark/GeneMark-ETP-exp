@@ -1,0 +1,10 @@
+---
+species: Solanum_lycopersicum
+genome_path: data/genome.fasta.masked
+rnaseq_sets: [
+  SRR2002284,
+  SRR7959012,
+  SRR7959019,
+  SRR14055940,
+]
+protdb_path: data/order_excluded.fa

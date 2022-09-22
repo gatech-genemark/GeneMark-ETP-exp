@@ -1,0 +1,9 @@
+---
+species: Arabidopsis_thaliana
+genome_path: data/genome.fasta.masked
+rnaseq_sets: [
+  SRR934391,
+  SRR5588566,
+  SRR7169927,
+]
+protdb_path: data/order_excluded.fa

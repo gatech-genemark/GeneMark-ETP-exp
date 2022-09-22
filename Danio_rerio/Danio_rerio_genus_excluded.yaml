@@ -1,0 +1,9 @@
+---
+species: Danio_rerio
+genome_path: data/genome.fasta.masked
+rnaseq_sets: [
+  SRR9735169,
+  SRR10004226,
+  SRR10040127,
+]
+protdb_path: data/genus_excluded.fa
