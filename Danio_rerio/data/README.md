@@ -1,3 +1,9 @@
+## Genome reference
+
+The genome was downloaded from http://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/002/035/GCF_000002035.6_GRCz11/GCF_000002035.6_GRCz11_genomic.fna.gz
+
+See the main [README](../../README.md) for genome processing details.
+
 ## Preparation of proteins
 
 Download vertebrata proteins from OrthoDB

@@ -1,3 +1,9 @@
+## Genome reference
+
+The genome was downloaded from https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/215/GCF_000001215.4_Release_6_plus_ISO1_MT/GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz
+
+See the main [README](../../README.md) for genome processing details.
+
 ## Preparation of protein sets
 
 Download arthropoda proteins from OrthoDB

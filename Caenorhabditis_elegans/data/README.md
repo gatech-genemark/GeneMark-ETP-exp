@@ -1,3 +1,9 @@
+## Genome reference
+
+The genome was downloaded from https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/002/985/GCF_000002985.6_WBcel235/GCF_000002985.6_WBcel235_genomic.fna.gz
+
+See the main [README](../../README.md) for genome processing details.
+
 ## Preparation of proteins
 
 Download metazoa proteins from OrthoDB

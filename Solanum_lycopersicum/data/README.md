@@ -1,3 +1,9 @@
+## Genome reference
+
+The genome was downloaded from https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/188/115/GCF_000188115.4_SL3.0/GCF_000188115.4_SL3.0_genomic.fna.gz
+
+See the main [README](../../README.md) for genome processing details.
+
 ## Preparation of proteins
 
 Download plants proteins from OrthoDB
