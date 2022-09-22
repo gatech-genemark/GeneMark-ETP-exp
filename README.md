@@ -52,6 +52,52 @@ ls */annot/annot.gtf | xargs -P7 -I {} bash -c 'bin/analyze_annot.py {} > {}.ana
 ls */annot/reliable.gtf | xargs -P7 -I {} bash -c 'bin/analyze_annot.py {} > {}.analysis'
 ```
 
+## Reproducing gene predictions
+
+### GeneMark-ETP
+
+For each species `$SPECIES` GeneMark-ETP was executed with the following command, utilizing the `.yaml` config files
+
+    cd $SPECIES
+    $ETP_FOLDER/bin/etp_release.pl --cfg $CONFIG.yaml --workdir . --verbose --softmask
+
+### GeneMark-ES/ET/EP+
+
+All evaluations of GeneMark-ES/ET/EP+ were done with gmes suite version `4.69`.
+
+GeneMark-ES was run as follows:
+
+    cd $SPECIES/other/es
+    $GMES_FOLDER/gmes_petap.pl --ES --mask_penalty 0 --seq ../../data/genome.fasta.masked
+
+GeneMark-ET was run with the command below. The file `hintsfile_merged.gff` is generated over the course of a GeneMark-ETP run.
+
+    cd $SPECIES/other/et
+    $GMES_FOLDER/gmes_petap.pl --ET ../../rnaseq/hints/hintsfile_merged.gff --mask_penalty 0 --seq ../../data/genome.fasta.masked
+
+GeneMark-EP+ was run as follows:
+
+    cd $SPECIES/other/ep_$PROTEIN_DB
+    $GMES_FOLDER/gmes_petap.pl --EP --dbep ../../data/$PROTEIN_DB --mask_penalty 0 --seq ../../data/genome.fasta.masked
+
+### BRAKERs and TSEBRA
+
+All evaluations were done with BRAKER `v2.1.6` and TSEBRA `v1.0.3`.
+
+BRAKER1 was run with the command below. The file `hintsfile_merged.gff` is generated over the course of a GeneMark-ETP run.
+
+    cd $SPECIES/other/braker1
+    $BRAKER_FOLDER/scripts/braker.pl --softmasking --genome ../../data/genome.fasta.masked --hints ../../data/hintsfile_merged.gff
+
+BRAKER2 was run as follows:
+
+    cd $SPECIES/other/braker2/$PROTEIN_DB
+    $BRAKER_FOLDER/scripts/braker.pl --softmasking --genome ../../../data/genome.fasta.masked --prot_seq ../../../data/$PROTEIN_DB
+
+TSEBRA was run as:
+
+    cd $SPECIES/other/tsebra/$PROTEIN_DB
+    $TSEBRA_FOLDER/bin/tsebra.py -c $TSEBRA_FOLDER/config/default.cfg -e ../../braker1/braker/hintsfile.gff,../../braker2/$PROTEIN_DB/braker/hintsfile.gff -g ../../braker1/braker/augustus.hints.gtf,../../braker2/$PROTEIN_DB/braker/augustus.hints.gtf -o tsebra.gtf
 
 ## Evaluation
 
@@ -93,3 +139,5 @@ cd $SPECIES/$etp_prediction_folder/scan
 ../../../../bin/estimateMaskingPenalty.py --GMES_PATH $path_to_gmes --scan $predicted_hc_genes ../../../data/genome.softmasked.fasta $etp_model --threads 64 --startingStep 0.01 --minStep 0.01
 ../../../../bin/repeatExperiments/scanGraph.py out scanGraph.png
 ```
+
+The results of these repeat experiments are saved in the `$SPECIES/$etp_prediction_folder` folders.
