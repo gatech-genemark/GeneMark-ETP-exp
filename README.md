@@ -6,7 +6,7 @@ Georgia Institute of Technology, Atlanta, Georgia, USA
 
 Reference: TODO
 
-This repository contains documentation of experiments, data and results for the GeneMark-ETP project.
+This repository contains documentation of experiments, data and results for the GeneMark-ETP project. The code of GeneMark-ETP itself lives at https://github.com/gatech-genemark/GeneMark-ETP
 
 ## Input data preparation
 
