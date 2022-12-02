@@ -1,12 +1,14 @@
 # Experiments for the GeneMark-ETP project
 
-Tomas Bruna, Alexandre Lomsadze, Mark Borodovsky
-
-Georgia Institute of Technology, Atlanta, Georgia, USA
-
-Reference: TODO
-
 This repository contains documentation of experiments, data and results for the GeneMark-ETP project. The code of GeneMark-ETP itself lives at https://github.com/gatech-genemark/GeneMark-ETP
+
+## Reference
+
+_GeneMark-ETP: Automatic Gene Finding in Eukaryotic Genomes in Consistence with Extrinsic Data_  
+Tomas Bruna, Alexandre Lomsadze, Mark Borodovsky  
+publication in preparation 2022  
+Georgia Institute of Technology, Atlanta, Georgia, USA  
+
 
 ## Input data preparation
 
