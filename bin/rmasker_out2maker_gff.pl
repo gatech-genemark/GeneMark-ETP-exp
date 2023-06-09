@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 #---------------
 # Alex Lomsadze
-# 2023, GerogiaTech 
+# 2023, GeorgiaTech
 #
 # This script takes as input file with repeat coordinates from RepeatMasker
 # and outputs repeat coordinates in GFF format for gene annotation pipeline MAKER
@@ -31,6 +31,16 @@ while(<>)
    {
       $arr[11] =~ s/[()]//g;
       $Lm = $arr[11];
+   }
+   
+   if ( $Lm < 0 )
+   {
+      $Lm = -1 * $Lm;
+   }
+   
+   if ( $Rm < 0 )
+   {
+      $Rm = -1 * $Rm;
    }
 
    if ( $Lm > $Rm )
